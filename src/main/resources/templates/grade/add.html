@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${grade!=null}?员工修改:员工添加">员工页面</title>
+    <style>
+        *{
+            font:14px "Microsoft YaHei UI",sans-serif;
+        }
+        form{
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <form th:action="@{/grade}" method="post">
+        <input type="hidden" name="_method" value="put" th:if="${grade!=null}"/>
+        <input type="hidden" name="gid" th:if="${grade!=null}" th:value="${grade.gid}"/>
+        <input type="text" name="gname" placeholder="输入年级名称" th:value="${grade!=null}?${grade.gname}"/><br/>
+        <input type="submit" value="提交"/>
+    </form>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>年级管理</title>
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <style>
+        *{
+            font:14px "Microsoft YaHei UI";
+        }
+        table{
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" cellpadding="5" cellspacing="0" width="70%">
+        <thead>
+            <tr>
+                <th>年级编号</th>
+                <th>年级名称</th>
+                <th colspan="2"><a th:href="@{/grade}">添加</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="g:${grades.list}">
+                <td th:text="${g.gid}"></td>
+                <td th:text="${g.gname}"></td>
+                <td><a th:href="@{/grade/}+${g.gid}">修改</a></td>
+                <td><button th:attr="del_uri=@{/grade/}+${g.gid}" class="delBut">删除</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>当前页:<b th:text="${grades.pageNum}"></b></td>
+                <td>总页数:<b th:text="${grades.pages}"></b></td>
+                <td>页大小:<b th:text="${grades.pageSize}"></b></td>
+                <td>总记录数:<b th:text="${grades.total}"></b></td>
+            </tr>
+            <tr>
+                <td>
+                    <a th:href="@{/grades/1}">首页</a>
+                </td>
+                <td><a th:href="@{/grades/}+${grades.isFirstPage}?${grades.navigateFirstPage}:${grades.prePage}">
+                    上一页</a>
+                </td>
+                <td><a th:href="@{/grades/}+${grades.isLastPage}?${grades.navigateLastPage}:${grades.nextPage}">
+                    下一页</a>
+                </td>
+                <td>
+                    <a th:href="@{/grades/}+${grades.pages}">尾页</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <form id="deleteEmpForm"  method="post">
+        <input type="hidden" name="_method" value="delete"/>
+    </form>
+    <script>
+        $(".delBut").click(function(){
+            //删除当前员工的
+            $("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+            return false;//取消按钮默认行为
+        });
+    </script>
+</body>
+</html>
